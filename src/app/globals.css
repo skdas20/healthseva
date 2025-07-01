@@ -1,26 +1,462 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
+  /* HealthSeva Custom CSS Variables */
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background-secondary: #f8fafc;
+  --background-tint: #eff6ff;
+  --foreground: #1e293b;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #60a5fa;
+  --accent: #14b8a6;
+  --soft-pink: #ec4899;
+  --soft-lavender: #c084fc;
+  --navy: #1e293b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --background-secondary: #1e293b;
+    --background-tint: #334155;
+    --foreground: #f8fafc;
   }
 }
 
 body {
-  background: var(--background);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  line-height: 1.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom component classes */
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-primary text-white px-6 py-3 rounded-lg font-medium hover:shadow-soft-lg transition-all duration-300 hover:scale-105;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-primary-600 border border-primary-200 px-6 py-3 rounded-lg font-medium hover:bg-primary-50 hover:shadow-soft transition-all duration-300;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-soft hover:shadow-soft-lg transition-all duration-300 border border-gray-100;
+  }
+  
+  .card-gradient {
+    @apply bg-gradient-soft rounded-xl shadow-soft hover:shadow-soft-lg transition-all duration-300;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-primary bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-secondary {
+    @apply bg-gradient-secondary bg-clip-text text-transparent;
+  }
+  
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-12 lg:py-20;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Custom Animation Classes */
+@layer utilities {
+  /* Flip Card Animation */
+  .flip-card {
+    perspective: 1000px;
+    height: 300px;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .flip-card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  /* Typing Effect */
+  .typing-text {
+    overflow: hidden;
+    border-right: 3px solid #3b82f6;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #3b82f6; }
+  }
+
+  /* Shine Effect */
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* Floating Animation */
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Pulse Animation */
+  .pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Monitor Animation */
+  .monitor-frame {
+    background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 
+      0 10px 25px -5px rgba(0, 0, 0, 0.1),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  }
+  
+  .monitor-screen {
+    background: #000;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .monitor-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 49%,
+      rgba(255, 255, 255, 0.03) 50%,
+      transparent 51%
+    );
+    pointer-events: none;
+  }
+
+  /* Gradient Backgrounds */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #ec4899 100%);
+  }
+  
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+  }
+  
+  .bg-gradient-soft {
+    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  }
+
+  /* Text Gradients */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-secondary {
+    background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Shadow Utilities */
+  .shadow-soft {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .shadow-soft-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Service Card Hover Effect */
+  .service-card {
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Social Icons Floating */
+  .social-float {
+    animation: socialFloat 4s ease-in-out infinite;
+  }
+  
+  .social-float:nth-child(2) { animation-delay: 0.5s; }
+  .social-float:nth-child(3) { animation-delay: 1s; }
+  .social-float:nth-child(4) { animation-delay: 1.5s; }
+  
+  @keyframes socialFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(5deg); }
+    50% { transform: translateY(-5px) rotate(0deg); }
+    75% { transform: translateY(-15px) rotate(-5deg); }
+  }
+
+  /* Medical Background Animations */
+  .medical-bg {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .medical-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(0, 153, 153, 0.15) 1px, transparent 1px),
+      radial-gradient(circle at 80% 80%, rgba(0, 153, 153, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 153, 153, 0.12) 1px, transparent 1px);
+    background-size: 50px 50px, 75px 75px, 100px 100px;
+    animation: medicalFloat 25s linear infinite;
+    pointer-events: none;
+  }
+  
+  .medical-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(45deg, transparent 48%, rgba(0, 153, 153, 0.08) 49%, rgba(0, 153, 153, 0.08) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(0, 153, 153, 0.06) 49%, rgba(0, 153, 153, 0.06) 51%, transparent 52%);
+    background-size: 80px 80px, 120px 120px;
+    animation: medicalPulse 30s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes medicalFloat {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-30px, -30px) rotate(120deg); }
+    66% { transform: translate(30px, -15px) rotate(240deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+  
+  @keyframes medicalPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+  
+  /* Advanced Medical Background Animations */
+  @keyframes dnaRotate {
+    0% { transform: rotate(0deg) translateY(0px); }
+    100% { transform: rotate(360deg) translateY(-20px); }
+  }
+  
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    10% { transform: scale(1.1); }
+    20% { transform: scale(1); }
+    30% { transform: scale(1.1); }
+    40% { transform: scale(1); }
+  }
+  
+  @keyframes pillFloat {
+    0%, 100% { 
+      transform: translateY(0px) rotate(0deg);
+      opacity: 0.3;
+    }
+    50% { 
+      transform: translateY(-30px) rotate(180deg);
+      opacity: 0.6;
+    }
+  }
+  
+  @keyframes pulseRing {
+    0% {
+      transform: scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: scale(1.5);
+      opacity: 0.1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes moleculeOrbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes waveflow {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 100; }
+  }
+  
+  @keyframes particleRise {
+    0% {
+      transform: translateY(100vh) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    90% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateY(-100px) scale(0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes crossSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  
+  @keyframes stethoscopeSwing {
+    0%, 100% { transform: rotate(-5deg) translateY(0px); }
+    50% { transform: rotate(5deg) translateY(-10px); }
+  }
+  
+  @keyframes gradientShift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  
+  /* Medical Equipment Glow Effects */
+  .medical-glow {
+    filter: drop-shadow(0 0 10px rgba(20, 184, 166, 0.3));
+  }
+  
+  .health-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(20, 184, 166, 0.1) 0%,
+      rgba(16, 185, 129, 0.2) 50%,
+      rgba(20, 184, 166, 0.1) 100%
+    );
+    background-size: 200% 100%;
+    animation: gradientShift 3s ease-in-out infinite;
+  }
+  
+  /* Utility classes for medical animations */
+  .animate-dna { animation: dnaRotate 8s linear infinite; }
+  .animate-heartbeat { animation: heartbeat 2s ease-in-out infinite; }
+  .animate-pill-float { animation: pillFloat 6s ease-in-out infinite; }
+  .animate-pulse-ring { animation: pulseRing 3s ease-out infinite; }
+  .animate-molecule { animation: moleculeOrbit 12s linear infinite; }
+  .animate-wave { animation: waveflow 2s linear infinite; }
+  .animate-particle { animation: particleRise 8s linear infinite; }
+  .animate-cross { animation: crossSpin 10s ease-in-out infinite; }
+  .animate-stethoscope { animation: stethoscopeSwing 4s ease-in-out infinite; }
+  
+  /* Medical color variants */
+  .text-medical-green { color: rgba(16, 185, 129, 1); }
+  .text-medical-teal { color: rgba(20, 184, 166, 1); }
+  .text-medical-emerald { color: rgba(5, 150, 105, 1); }
+  
+  .bg-medical-green { background-color: rgba(16, 185, 129, 0.1); }
+  .bg-medical-teal { background-color: rgba(20, 184, 166, 0.1); }
+  .bg-medical-emerald { background-color: rgba(5, 150, 105, 0.1); }
 }
