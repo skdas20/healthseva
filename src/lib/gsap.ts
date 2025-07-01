@@ -441,7 +441,7 @@ export class GSAPAnimations {
   static colorTransition(element: HTMLElement, colors: string[]) {
     const tl = gsap.timeline({ repeat: -1 });
     
-    colors.forEach((color, index) => {
+    colors.forEach((color) => {
       tl.to(element, {
         color: color,
         duration: 2,

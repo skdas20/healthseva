@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { WhatsAppButtonProps } from '@/types/components';
 
@@ -27,25 +27,23 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
 
   return (
     <div className={cn('fixed z-50', positionClasses[position])}>
-      <AnimatePresence>
-        {showTooltip && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            className={cn(
-              'absolute bottom-full mb-2 px-3 py-2 bg-white text-gray-800 text-sm rounded-lg shadow-lg whitespace-nowrap border',
-              position === 'bottom-right' ? 'right-0' : 'left-0'
-            )}
-          >
-            Chat with us on WhatsApp
-            <div className={cn(
-              'absolute top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white',
-              position === 'bottom-right' ? 'right-4' : 'left-4'
-            )} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showTooltip && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 10 }}
+          className={cn(
+            'absolute bottom-full mb-2 px-3 py-2 bg-white text-gray-800 text-sm rounded-lg shadow-lg whitespace-nowrap border',
+            position === 'bottom-right' ? 'right-0' : 'left-0'
+          )}
+        >
+          Chat with us on WhatsApp
+          <div className={cn(
+            'absolute top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white',
+            position === 'bottom-right' ? 'right-4' : 'left-4'
+          )} />
+        </motion.div>
+      )}
 
       <motion.button
         onClick={handleClick}

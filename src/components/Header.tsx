@@ -8,6 +8,7 @@ import { Menu, X, Phone, Mail, MapPin, Heart, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { menuVariants, menuItemVariants } from '@/lib/animations';
+import React from 'react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

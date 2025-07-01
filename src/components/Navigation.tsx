@@ -4,22 +4,21 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
-  X, 
-  Heart, 
   Phone, 
   Calendar,
   Home,
   Activity,
   Award,
   Users,
-  MessageCircle
+  MessageCircle,
+  X
 } from 'lucide-react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { NavigationProps } from '@/types/components';
 
 const Navigation: React.FC<NavigationProps> = ({
   links,
-  logo = { text: 'HealthSeva', icon: <Heart className="w-8 h-8" /> },
   ctaText = 'Book Appointment',
   ctaHref = '/book-appointment'
 }) => {
@@ -147,7 +146,7 @@ const Navigation: React.FC<NavigationProps> = ({
             onClick={() => scrollToSection('#home')}
           >
             <div className="w-14 h-14 lg:w-16 lg:h-16">
-              <img src="/assets/logo.svg" alt="HealthSeva" className="w-full h-full object-contain" />
+              <Image src="/assets/logo.svg" alt="HealthSeva" width={64} height={64} className="w-full h-full object-contain" />
             </div>
           </motion.div>
 

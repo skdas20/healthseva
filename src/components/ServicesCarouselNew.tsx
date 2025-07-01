@@ -1,19 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Stethoscope, 
-  Video, 
-  Heart, 
-  Users, 
-  Shield, 
-  Home,
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  Pause
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { Users, Heart, Shield, Stethoscope, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ServiceItem {
@@ -87,7 +76,7 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-play functionality
-  useEffect(() => {
+  React.useEffect(() => {
     if (isPlaying && autoPlay) {
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % services.length);

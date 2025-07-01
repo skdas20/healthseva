@@ -1,14 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock
-} from 'lucide-react';
 import { ContactSectionProps } from '@/types/components';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 const ContactSection: React.FC<ContactSectionProps> = ({
   onOpenModal

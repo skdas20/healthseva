@@ -1,16 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { 
   UserCheck, 
   Clock, 
   Cpu, 
-  DollarSign,
-  CheckCircle,
-  TrendingUp,
-  Shield,
-  Star
+  DollarSign
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

@@ -5,9 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import confetti from 'canvas-confetti';
 import { 
-  X, 
   Calendar,
-  Clock,
   User,
   Phone,
   Mail,
@@ -17,7 +15,8 @@ import {
   Loader2,
   ArrowRight,
   ArrowLeft,
-  Heart
+  XCircle,
+  Clock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AppointmentModalProps, AppointmentFormData } from '@/types/components';
@@ -35,8 +34,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-    watch,
+    formState: { errors },
     reset,
     trigger
   } = useForm<AppointmentFormData>({
@@ -51,8 +49,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
       message: ''
     }
   });
-
-  const watchedFields = watch();
 
   useEffect(() => {
     if (isOpen) {
@@ -225,7 +221,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
               className="absolute right-4 top-4 p-2 hover:bg-white/50 rounded-lg transition-colors"
               aria-label="Close modal"
             >
-              <X className="w-5 h-5 text-navy-600" />
+              <XCircle className="w-5 h-5 text-navy-600" />
             </button>
             
             <div className="flex items-center space-x-3">
@@ -280,7 +276,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   Appointment Booked!
                 </h3>
                 <p className="text-navy-600 mb-4">
-                  Thank you! We'll contact you shortly to confirm your appointment details.
+                  Thank you! We&apos;ll contact you shortly to confirm your appointment details.
                 </p>
                 <div className="text-sm text-navy-500">
                   This window will close automatically...

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import ServicesCarousel from '@/components/ServicesCarouselNew';
@@ -11,13 +10,7 @@ import ContactSection from '@/components/ContactSectionSimple';
 import AppointmentModal from '@/components/AppointmentModal';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import Footer from '@/components/Footer';
-import { NavigationLink, AppointmentFormData, ServiceItem } from '@/types/components';
-
-// Lazy load heavy components for better performance
-const DynamicVideo = dynamic(() => import('react-player'), {
-  ssr: false,
-  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-64" />
-});
+import { NavigationLink, AppointmentFormData } from '@/types/components';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);

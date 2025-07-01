@@ -2,16 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Clock3, 
-  DollarSign, 
-  MapPin, 
-  MessageSquareX,
-  CheckCircle2,
-  ArrowRight,
-  Zap,
-  Heart
-} from 'lucide-react';
+import { CheckCircle, Clock3, DollarSign, MapPin, MessageSquareX, ArrowRight, Heart, Zap } from 'lucide-react';
 import { GSAPAnimations } from '@/lib/gsap';
 import { ProblemItem, ProblemsProps } from '@/types';
 import { cn } from '@/lib/utils';
@@ -67,7 +58,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
 
   useEffect(() => {
     // Color transition animation for problem icons
-    problems.forEach((problem, index) => {
+    problems.forEach((problem) => {
       const iconElement = document.querySelector(`#problem-icon-${problem.id}`);
       if (iconElement) {
         GSAPAnimations.colorTransition(iconElement as HTMLElement, [
@@ -84,12 +75,12 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             // Animate cards with stagger
-            cardRefs.current.forEach((card, index) => {
+            cardRefs.current.forEach((card) => {
               if (card) {
                 setTimeout(() => {
                   card.style.opacity = '1';
                   card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
-                }, index * 150);
+                }, 150);
               }
             });
           }
@@ -272,7 +263,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
                   >
                     <div className="pt-4 pb-2">
                       <div className="flex items-start space-x-3">
-                        <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <p className="text-sm text-navy-600 leading-relaxed">
                           {problem.solution}
                         </p>
@@ -323,7 +314,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
               Ready for Better Healthcare?
             </h3>
             <p className="text-navy-600 mb-8 text-lg">
-              Don't let these problems affect your health and well-being. 
+              Don&apos;t let these problems affect your health and well-being. 
               Experience the HealthSeva difference today.
             </p>
             

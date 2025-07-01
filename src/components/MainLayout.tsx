@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUp, ChevronUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ArrowUp } from 'lucide-react';
 import LoadingScreen from './LoadingScreen';
 import WhatsAppButton from './WhatsAppButton';
 import AppointmentModal from './AppointmentModal';
@@ -63,10 +62,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       top: 0,
       behavior: 'smooth'
     });
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
   };
 
   return (

@@ -1,23 +1,23 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Activity, Shield, Stethoscope, Pill, Plus, Zap, Users, Award } from 'lucide-react';
+import { Heart, Activity, Shield, Stethoscope, Pill, Plus, Zap, Users } from 'lucide-react';
 import { LoadingScreenProps, FloatingElement } from '@/types/components';
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) => {
-  const [progress, setProgress] = useState(0);
-  const [showContent, setShowContent] = useState(true);
-  const [currentPhase, setCurrentPhase] = useState(0);
-  const [loadingText, setLoadingText] = useState('Initializing HealthSeva...');
+  const [progress, setProgress] = React.useState(0);
+  const [showContent, setShowContent] = React.useState(true);
+  const [currentPhase, setCurrentPhase] = React.useState(0);
+  const [loadingText, setLoadingText] = React.useState('Initializing HealthSeva...');
 
-  const loadingPhases = [
+  const loadingPhases = useMemo(() => [
     { text: 'Initializing HealthSeva...', progress: 20 },
     { text: 'Connecting to healthcare network...', progress: 40 },
     { text: 'Loading medical resources...', progress: 60 },
     { text: 'Securing your health data...', progress: 80 },
     { text: 'Almost ready for your care...', progress: 100 }
-  ];
+  ], []);
 
   const floatingElements: FloatingElement[] = [
     { id: '1', icon: <Heart className="w-8 h-8 text-red-400" />, position: { x: 15, y: 25 }, delay: 0, duration: 4 },
@@ -30,7 +30,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
     { id: '8', icon: <Users className="w-7 h-7 text-indigo-400" />, position: { x: 90, y: 70 }, delay: 3.5, duration: 4 },
   ];
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isLoading) return;
 
     const progressInterval = setInterval(() => {
@@ -57,7 +57,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
     }, 150);
 
     return () => clearInterval(progressInterval);
-  }, [isLoading, onComplete, currentPhase]);
+  }, [isLoading, onComplete, currentPhase, loadingPhases]);
 
   const logoVariants = {
     initial: { 
@@ -83,18 +83,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
       opacity: [0.7, 1, 0.7],
       transition: {
         duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut" as const
-      }
-    }
-  };
-
-  const waveVariants = {
-    animate: {
-      pathLength: [0, 1, 0],
-      opacity: [0, 1, 0],
-      transition: {
-        duration: 3,
         repeat: Infinity,
         ease: "easeInOut" as const
       }

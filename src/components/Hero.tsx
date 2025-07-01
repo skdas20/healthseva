@@ -3,18 +3,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { 
-  Play, 
   Calendar, 
-  Eye, 
   ArrowRight,
   Users,
   Award,
   Clock,
   Heart,
   Shield,
-  Stethoscope
+  Stethoscope,
+  Eye
 } from 'lucide-react';
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { HeroProps } from '@/types/components';
 
 // Animation variants (no changes needed here)
@@ -38,17 +36,9 @@ const fadeInUp = {
   }
 };
 
+// Add back slideInLeft variant
 const slideInLeft = {
   initial: { opacity: 0, x: -100 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut" as const }
-  }
-};
-
-const slideInRight = {
-  initial: { opacity: 0, x: 100 },
   visible: {
     opacity: 1,
     x: 0,
@@ -202,7 +192,7 @@ const Hero: React.FC<HeroProps> = ({
   primaryCta = { text: "Book Appointment", href: "#contact" },
   secondaryCta = { text: "Learn More", href: "#services" },
   videoSrc = "/assets/demo.mp4",
-  socialLinks = []
+  // socialLinks = [] // Removed unused socialLinks
 }) => {
   const [monitorVisible, setMonitorVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
