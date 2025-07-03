@@ -5,10 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import confetti from 'canvas-confetti';
 import {
-  Calendar,
-  User,
-  Phone,
-  Mail,
   XCircle,
   CheckCircle,
   ArrowRight,
@@ -34,7 +30,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     formState: { errors },
     reset,
     trigger,
-    watch,
   } = useForm<AppointmentFormData>({
     mode: 'onChange',
     defaultValues: {

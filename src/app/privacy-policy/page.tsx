@@ -8,7 +8,7 @@ export default function PrivacyPolicy() {
           Privacy Policy of Health Seva
         </h1>
         <div className="space-y-6 text-navy-700 text-base md:text-lg">
-          <p>At Health Seva ("we," "our," or "us"), we prioritize your privacy and are committed to safeguarding your personal information. This Privacy Policy outlines how we collect, use, disclose, and protect your data when you access our services. By using our services, you agree to the practices described in this policy.</p>
+          <p>At Health Seva (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), we prioritize your privacy and are committed to safeguarding your personal information. This Privacy Policy outlines how we collect, use, disclose, and protect your data when you access our services. By using our services, you agree to the practices described in this policy.</p>
 
           <div className="bg-gradient-to-r from-[#009999]/10 via-[#40E0D0]/10 to-[#48D1CC]/10 rounded-lg p-4 border border-[#40E0D0]/30">
             <h2 className="font-semibold text-lg mb-2">1. Information We Collect</h2>
@@ -88,8 +88,8 @@ export default function PrivacyPolicy() {
           </div>
 
           <div className="bg-gradient-to-r from-[#009999]/10 via-[#40E0D0]/10 to-[#48D1CC]/10 rounded-lg p-4 border border-[#40E0D0]/30">
-            <h2 className="font-semibold text-lg mb-2">7. Children’s Privacy</h2>
-            <p>Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal data from minors without parental or guardian consent. Parents are encouraged to monitor their children's use of our services.</p>
+            <h2 className="font-semibold text-lg mb-2">7. Children&apos;s Privacy</h2>
+            <p>Our services are not intended for individuals under 18 years of age. We do not knowingly collect personal data from minors without parental or guardian consent. Parents are encouraged to monitor their children&apos;s use of our services.</p>
           </div>
 
           <div className="bg-gradient-to-r from-[#009999]/10 via-[#40E0D0]/10 to-[#48D1CC]/10 rounded-lg p-4 border border-[#40E0D0]/30">

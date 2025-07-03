@@ -9,19 +9,10 @@ import ContactSection from '@/components/ContactSectionSimple';
 import AppointmentModal from '@/components/AppointmentModal';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import Footer from '@/components/Footer';
-import { NavigationLink, AppointmentFormData } from '@/types/components';
+import { AppointmentFormData } from '@/types/components';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Navigation configuration
-  const navigationLinks: NavigationLink[] = [
-    { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'Benefits', href: '#benefits' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' }
-  ];
 
   // Hero section configuration
   const heroConfig = {

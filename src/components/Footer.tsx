@@ -8,16 +8,11 @@ import {
   Mail, 
   MapPin, 
   Clock,
-  ArrowRight,
-  Shield,
-  Award,
-  Users
+  ArrowRight
 } from 'lucide-react';
 import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-
   const footerSections = [
     {
       title: 'Services',
@@ -46,8 +41,8 @@ const Footer: React.FC = () => {
       links: [
         { name: 'Help Center', href: '#help' },
         { name: 'Contact Us', href: '#contact' },
-        { name: 'Privacy Policy', href: '/privacy-policy', external: true },
-        { name: 'Terms and Conditions', href: '/terms-and-conditions', external: true },
+        { name: 'Privacy Policy', href: '#privacy' },
+        { name: 'Terms of Service', href: '#terms' },
         { name: 'Patient Rights', href: '#rights' },
         { name: 'Feedback', href: '#feedback' }
       ]
@@ -84,7 +79,7 @@ const Footer: React.FC = () => {
                   </span>
                 </div>
                 
-                <p className="text-white leading-relaxed mb-6">
+                <p className="text-gray-300 leading-relaxed mb-6">
                   Your trusted healthcare partner, providing world-class medical services 
                   with compassionate care, cutting-edge technology, and personalized treatment 
                   plans designed around your unique needs.
@@ -94,25 +89,25 @@ const Footer: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <Phone className="w-5 h-5 text-white" />
-                    <a href="tel:+918521835910" className="text-white hover:text-white transition-colors">
+                    <a href="tel:+918521835910" className="text-gray-300 hover:text-white transition-colors">
                       +91 85218 35910
                     </a>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Mail className="w-5 h-5 text-white" />
-                    <a href="mailto:info@healthseva.com" className="text-white hover:text-white transition-colors">
+                    <a href="mailto:info@healthseva.com" className="text-gray-300 hover:text-white transition-colors">
                       info@healthseva.com
                     </a>
                   </div>
                   <div className="flex items-center space-x-3">
                     <MapPin className="w-5 h-5 text-white" />
-                    <span className="text-white">
+                    <span className="text-gray-300">
                       123 Healthcare Ave, Medical District, MD 12345
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Clock className="w-5 h-5 text-white" />
-                    <span className="text-white">
+                    <span className="text-gray-300">
                       24/7 Emergency Services Available
                     </span>
                   </div>
@@ -141,25 +136,13 @@ const Footer: React.FC = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: linkIndex * 0.05 }}
                     >
-                      {link.external ? (
-                        <a
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center group"
-                        >
-                          <span>{link.name}</span>
-                          <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                      ) : (
-                        <a
-                          href={link.href}
-                          className="text-white hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center group"
-                        >
-                          <span>{link.name}</span>
-                          <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                      )}
+                      <a
+                        href={link.href}
+                        className="text-gray-300 hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center group"
+                      >
+                        <span>{link.name}</span>
+                        <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </a>
                     </motion.li>
                   ))}
                 </ul>

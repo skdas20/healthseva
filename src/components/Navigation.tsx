@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
   Phone, 
-  Calendar,
   Home,
   Activity,
   Award,
@@ -19,9 +18,7 @@ import { cn } from '@/lib/utils';
 import { NavigationProps } from '@/types/components';
 
 const Navigation: React.FC<NavigationProps> = ({
-  links,
-  ctaText = 'Book Appointment',
-  ctaHref = '/book-appointment'
+  links
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
