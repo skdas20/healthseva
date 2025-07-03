@@ -4,19 +4,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import confetti from 'canvas-confetti';
-import { 
+import {
   Calendar,
   User,
   Phone,
   Mail,
-  MessageSquare,
-  Stethoscope,
+  XCircle,
   CheckCircle,
-  Loader2,
   ArrowRight,
   ArrowLeft,
-  XCircle,
-  Clock
+  Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AppointmentModalProps, AppointmentFormData } from '@/types/components';
@@ -24,7 +21,7 @@ import { AppointmentModalProps, AppointmentFormData } from '@/types/components';
 const AppointmentModal: React.FC<AppointmentModalProps> = ({
   isOpen,
   onClose,
-  onSubmit
+  onSubmit,
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,18 +33,30 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     handleSubmit,
     formState: { errors },
     reset,
-    trigger
+    trigger,
+    watch,
   } = useForm<AppointmentFormData>({
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      phone: '',
-      email: '',
-      serviceType: '',
-      preferredDate: '',
-      preferredTime: '',
-      message: ''
-    }
+      serviceRequirement: '',
+      patientFirstName: '',
+      patientLastName: '',
+      gender: '',
+      age: '',
+      complaints: [],
+      otherComplaint: '',
+      sinceWhen: '',
+      medicalHistory: '',
+      guardianFirstName: '',
+      guardianLastName: '',
+      guardianPhone: '',
+      guardianEmail: '',
+      addressStreet: '',
+      addressLandmark: '',
+      addressPin: '',
+      referral: '',
+      consent: false,
+    },
   });
 
   useEffect(() => {
@@ -60,7 +69,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
       setIsSuccess(false);
       reset();
     }
-
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -72,33 +80,37 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
         onClose();
       }
     };
-
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    const navbar = document.getElementById('navbar');
+    if (isOpen && navbar) {
+      navbar.classList.add('hidden');
+    } else if (navbar) {
+      navbar.classList.remove('hidden');
+    }
+    return () => {
+      if (navbar) navbar.classList.remove('hidden');
+    };
+  }, [isOpen]);
+
   const handleFormSubmit: SubmitHandler<AppointmentFormData> = async (data) => {
     setIsSubmitting(true);
-    
     try {
       if (onSubmit) {
         await onSubmit(data);
       } else {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       }
-      
       setIsSuccess(true);
-      
-      // Trigger confetti animation
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#3B82F6', '#EC4899', '#14B8A6', '#F59E0B']
+        colors: ['#3B82F6', '#EC4899', '#14B8A6', '#F59E0B'],
       });
-      
-      // Auto close after success
       setTimeout(() => {
         onClose();
       }, 4000);
@@ -110,86 +122,99 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
   };
 
   const nextStep = async () => {
-    const fieldsToValidate = currentStep === 1 
-      ? ['name', 'phone', 'email'] 
-      : ['serviceType', 'preferredDate', 'preferredTime'];
-    
+    const fieldsToValidate =
+      currentStep === 1
+        ? [
+            'serviceRequirement',
+            'patientFirstName',
+            'patientLastName',
+            'gender',
+            'age',
+            'complaints',
+            'sinceWhen',
+          ]
+        : [
+            'guardianFirstName',
+            'guardianLastName',
+            'guardianPhone',
+            'addressStreet',
+            'addressLandmark',
+            'addressPin',
+            'referral',
+            'consent',
+          ];
     const isStepValid = await trigger(fieldsToValidate as (keyof AppointmentFormData)[]);
-    
     if (isStepValid) {
       setCurrentStep(2);
     }
   };
 
-  const prevStep = () => {
-    setCurrentStep(1);
-  };
+  const prevStep = () => setCurrentStep(1);
 
-  const serviceTypes = [
-    'General Consultation',
-    'Emergency Care',
-    'Specialist Appointment',
-    'Health Checkup',
-    'Telemedicine',
-    'Home Visit',
-    'Follow-up Consultation'
+  const complaintsOptions = [
+    'Fever',
+    'Headache',
+    'Bodyache',
+    'Weakness',
+    'Chest Pain',
+    'Abdomen Pain',
+    'Vomiting',
+    'Cough & Cold',
+    'Dizziness',
+    'Breathlessness',
+    'Loose Motion',
+    'Burning Urination',
+    'Regular Checkup',
+    'Body Pain',
+    'Other',
   ];
 
-  const timeSlots = [
-    '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-    '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM',
-    '05:00 PM', '05:30 PM'
+  const sinceWhenOptions = [
+    'Less than 1 Day',
+    '1-2 Days',
+    '2-3 Days',
+    '4-7 Days',
+    'More than a Week',
+  ];
+
+  const referralOptions = [
+    'Google',
+    'Past User',
+    'Friends or Family',
+    'Social Media',
+    'Offline Advertisement',
   ];
 
   const backdropVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
-    exit: { opacity: 0 }
+    exit: { opacity: 0 },
   };
 
   const modalVariants = {
-    initial: { 
-      opacity: 0, 
-      scale: 0.8, 
-      y: 50 
-    },
-    animate: { 
-      opacity: 1, 
-      scale: 1, 
+    initial: { opacity: 0, scale: 0.8, y: 50 },
+    animate: {
+      opacity: 1,
+      scale: 1,
       y: 0,
-      transition: {
-        type: 'spring' as const,
-        damping: 25,
-        stiffness: 300
-      }
+      transition: { type: 'spring' as const, damping: 25, stiffness: 300 },
     },
-    exit: { 
-      opacity: 0, 
-      scale: 0.8, 
-      y: 50,
-      transition: {
-        duration: 0.2
-      }
-    }
+    exit: { opacity: 0, scale: 0.8, y: 50, transition: { duration: 0.2 } },
   };
 
   const stepVariants = {
     initial: { opacity: 0, x: 20 },
     animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -20 }
+    exit: { opacity: 0, x: -20 },
   };
 
   const successVariants = {
     initial: { opacity: 0, scale: 0.5 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       scale: 1,
-      transition: {
-        type: 'spring' as const,
-        damping: 20,
-        stiffness: 300
-      }
-    }
+      transition: { type: 'spring' as const, damping: 20, stiffness: 300 },
+    },
   };
 
   if (!isOpen) return null;
@@ -201,7 +226,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
         initial="initial"
         animate="animate"
         exit="exit"
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black/60 backdrop-blur-md z-[9999] flex items-start justify-center pt-36 pb-4 px-4 overflow-y-auto"
         onClick={onClose}
       >
         <motion.div
@@ -210,298 +235,540 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
           initial="initial"
           animate="animate"
           exit="exit"
-          className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-soft-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+          className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[calc(100vh-6rem)] overflow-hidden border border-gray-100 relative my-4"
           onClick={(e) => e.stopPropagation()}
           tabIndex={-1}
         >
-          {/* Header */}
-          <div className="relative px-6 py-4 border-b border-gray-200/50 bg-gradient-soft">
-            <button
-              onClick={onClose}
-              className="absolute right-4 top-4 p-2 hover:bg-white/50 rounded-lg transition-colors"
-              aria-label="Close modal"
-            >
-              <XCircle className="w-5 h-5 text-navy-600" />
-            </button>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-navy-800">Book Appointment</h2>
-                <p className="text-sm text-navy-600">Schedule your healthcare consultation</p>
-              </div>
-            </div>
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-10 p-2 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Close modal"
+          >
+            <XCircle className="w-5 h-5 text-gray-500" />
+          </button>
 
-            {/* Progress Bar */}
-            <div className="mt-4 flex items-center space-x-2">
-              <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-gradient-primary"
-                  initial={{ width: '50%' }}
-                  animate={{ width: currentStep === 1 ? '50%' : '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </div>
-              <span className="text-xs text-navy-600">
-                Step {currentStep} of 2
-              </span>
-            </div>
+          {/* Header */}
+          <div className="px-6 py-4 border-b border-gray-200 text-center">
+            <h2 className="text-xl font-bold text-gray-800 mb-3">
+              Health Seva Onboarding Form
+            </h2>
           </div>
 
-          {/* Content */}
-          <div className="px-6 py-6 max-h-[60vh] overflow-y-auto">
-            {isSuccess ? (
-              <motion.div
-                variants={successVariants}
-                initial="initial"
-                animate="animate"
-                className="text-center py-8"
-              >
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 360]
-                  }}
-                  transition={{ 
-                    duration: 0.6,
-                    ease: 'easeInOut'
-                  }}
-                  className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
-                >
-                  <CheckCircle className="w-8 h-8 text-green-600" />
-                </motion.div>
-                <h3 className="text-2xl font-bold text-navy-800 mb-2">
-                  Appointment Booked!
-                </h3>
-                <p className="text-navy-600 mb-4">
-                  Thank you! We&apos;ll contact you shortly to confirm your appointment details.
-                </p>
-                <div className="text-sm text-navy-500">
-                  This window will close automatically...
+          {/* Responsive Step Indicator + Form Layout */}
+          <div className="flex flex-col md:flex-row w-full">
+            {/* Step Indicator Sidebar */}
+            <div className="flex md:flex-col flex-row md:w-56 w-full md:min-h-[500px] md:border-r border-b md:border-b-0 border-gray-100 bg-gray-50 md:bg-white py-2 md:py-8 px-2 md:px-4 items-center md:items-start justify-center md:justify-start gap-4 md:gap-8">
+              <div className="flex items-center md:flex-col flex-row gap-2 md:gap-4">
+                <div className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium",
+                  currentStep === 1 ? "bg-teal-600 text-white" : "bg-teal-100 text-teal-700"
+                )}>
+                  1
                 </div>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-                <AnimatePresence mode="wait">
-                  {currentStep === 1 ? (
-                    <motion.div
-                      key="step1"
-                      variants={stepVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      className="space-y-6"
-                    >
-                      <h3 className="text-lg font-semibold text-navy-800 mb-4">
-                        Personal Information
-                      </h3>
+                <span className={cn(
+                  "text-xs md:text-sm font-medium md:mt-2",
+                  currentStep === 1 ? "text-teal-700" : "text-gray-400"
+                )}>
+                  Patient Info
+                </span>
+              </div>
+              <div className="hidden md:block w-1 h-8 bg-gray-200 mx-auto rounded-full" />
+              <div className="flex items-center md:flex-col flex-row gap-2 md:gap-4">
+                <div className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium",
+                  currentStep === 2 ? "bg-teal-600 text-white" : "bg-teal-100 text-teal-700"
+                )}>
+                  2
+                </div>
+                <span className={cn(
+                  "text-xs md:text-sm font-medium md:mt-2",
+                  currentStep === 2 ? "text-teal-700" : "text-gray-400"
+                )}>
+                  Guardian Info
+                </span>
+              </div>
+            </div>
 
-                      {/* Name Field */}
-                      <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-2">
-                          Full Name *
-                        </label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-navy-400" />
-                          <input
-                            {...register('name', { 
-                              required: 'Name is required',
-                              minLength: { value: 2, message: 'Name must be at least 2 characters' }
-                            })}
-                            type="text"
-                            className={cn(
-                              'w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors',
-                              errors.name ? 'border-red-300' : 'border-gray-300'
+            {/* Form Content */}
+            <div className="flex-1 px-2 md:px-8 py-4 max-h-[calc(100vh-16rem)] overflow-y-auto">
+              {isSuccess ? (
+                <motion.div
+                  variants={successVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="text-center py-8"
+                >
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 360],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: 'easeInOut',
+                    }}
+                    className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                  >
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                    Appointment Booked!
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Thank you! We&apos;ll contact you shortly to confirm your appointment details.
+                  </p>
+                  <div className="text-sm text-gray-500">
+                    This window will close automatically...
+                  </div>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+                  <AnimatePresence mode="wait">
+                    {currentStep === 1 && (
+                      <motion.div
+                        key="step1"
+                        variants={stepVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+                      >
+                        {/* Left Column */}
+                        <div className="space-y-4">
+                          {/* Service Requirement */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Service Requirement <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-1 gap-2">
+                              {[
+                                'In-Home Doctor Consultation',
+                                'In-Home Physiotherapy',
+                                'In-Home Nursing Care',
+                                'In-Home ECG',
+                              ].map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex items-center space-x-2 cursor-pointer"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    value={option}
+                                    {...register('serviceRequirement', {
+                                      required: 'Please select a service',
+                                    })}
+                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                  />
+                                  <span className="text-sm text-gray-700">{option}</span>
+                                </label>
+                              ))}
+                            </div>
+                            {errors.serviceRequirement && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.serviceRequirement.message}
+                              </p>
                             )}
-                            placeholder="Enter your full name"
-                          />
-                        </div>
-                        {errors.name && (
-                          <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                        )}
-                      </div>
+                          </div>
 
-                      {/* Phone Field */}
-                      <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-2">
-                          Phone Number *
-                        </label>
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-navy-400" />
-                          <input
-                            {...register('phone', { 
-                              required: 'Phone number is required',
-                              pattern: {
-                                value: /^[\+]?[1-9][\d]{0,15}$/,
-                                message: 'Invalid phone number'
-                              }
-                            })}
-                            type="tel"
-                            className={cn(
-                              'w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors',
-                              errors.phone ? 'border-red-300' : 'border-gray-300'
+                          {/* Patient Name */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Patient&apos;s Name <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('patientFirstName', {
+                                    required: 'First name is required',
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="First Name"
+                                />
+                                <span className="text-xs text-gray-500 mt-1">First Name</span>
+                              </div>
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('patientLastName', {
+                                    required: 'Last name is required',
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="Last Name"
+                                />
+                                <span className="text-xs text-gray-500 mt-1">Last Name</span>
+                              </div>
+                            </div>
+                            {(errors.patientFirstName || errors.patientLastName) && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.patientFirstName?.message || errors.patientLastName?.message}
+                              </p>
                             )}
-                            placeholder="Enter your phone number"
-                          />
-                        </div>
-                        {errors.phone && (
-                          <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-                        )}
-                      </div>
+                          </div>
 
-                      {/* Email Field */}
-                      <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-2">
-                          Email Address *
-                        </label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-navy-400" />
-                          <input
-                            {...register('email', { 
-                              required: 'Email is required',
-                              pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: 'Invalid email address'
-                              }
-                            })}
-                            type="email"
-                            className={cn(
-                              'w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors',
-                              errors.email ? 'border-red-300' : 'border-gray-300'
+                          {/* Gender */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Gender <span className="text-red-500">*</span>
+                            </label>
+                            <div className="flex space-x-6">
+                              {['Male', 'Female'].map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex items-center space-x-2 cursor-pointer"
+                                >
+                                  <input
+                                    type="radio"
+                                    value={option}
+                                    {...register('gender', {
+                                      required: 'Please select gender',
+                                    })}
+                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                  />
+                                  <span className="text-sm text-gray-700">{option}</span>
+                                </label>
+                              ))}
+                            </div>
+                            {errors.gender && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.gender.message}
+                              </p>
                             )}
-                            placeholder="Enter your email address"
-                          />
-                        </div>
-                        {errors.email && (
-                          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-                        )}
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="step2"
-                      variants={stepVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      className="space-y-6"
-                    >
-                      <h3 className="text-lg font-semibold text-navy-800 mb-4">
-                        Appointment Details
-                      </h3>
+                          </div>
 
-                      {/* Service Type */}
-                      <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-2">
-                          Service Type *
-                        </label>
-                        <div className="relative">
-                          <Stethoscope className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-navy-400" />
-                          <select
-                            {...register('serviceType', { required: 'Please select a service type' })}
-                            className={cn(
-                              'w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors',
-                              errors.serviceType ? 'border-red-300' : 'border-gray-300'
-                            )}
-                          >
-                            <option value="">Select a service</option>
-                            {serviceTypes.map((service) => (
-                              <option key={service} value={service}>
-                                {service}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        {errors.serviceType && (
-                          <p className="mt-1 text-sm text-red-600">{errors.serviceType.message}</p>
-                        )}
-                      </div>
-
-                      {/* Date and Time */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-navy-700 mb-2">
-                            Preferred Date *
-                          </label>
-                          <div className="relative">
-                            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-navy-400" />
+                          {/* Age */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Patient&apos;s Age <span className="text-red-500">*</span>
+                            </label>
                             <input
-                              {...register('preferredDate', { required: 'Please select a date' })}
-                              type="date"
-                              min={new Date().toISOString().split('T')[0]}
-                              className={cn(
-                                'w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors',
-                                errors.preferredDate ? 'border-red-300' : 'border-gray-300'
-                              )}
+                              type="number"
+                              min="0"
+                              {...register('age', { required: 'Age is required' })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                              placeholder="Age"
+                            />
+                            {errors.age && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.age.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Right Column */}
+                        <div className="space-y-4">
+                          {/* Complaints */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Complaints <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                              {complaintsOptions.map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex items-center space-x-2 cursor-pointer"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    value={option}
+                                    {...register('complaints', {
+                                      required: 'Please select at least one complaint',
+                                    })}
+                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                  />
+                                  <span className="text-sm text-gray-700">{option}</span>
+                                </label>
+                              ))}
+                            </div>
+                            {errors.complaints && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.complaints.message}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Since When */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Since When <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-1 gap-2">
+                              {sinceWhenOptions.map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex items-center space-x-2 cursor-pointer"
+                                >
+                                  <input
+                                    type="radio"
+                                    value={option}
+                                    {...register('sinceWhen', {
+                                      required: 'Please select duration',
+                                    })}
+                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                  />
+                                  <span className="text-sm text-gray-700">{option}</span>
+                                </label>
+                              ))}
+                            </div>
+                            {errors.sinceWhen && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.sinceWhen.message}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Medical History */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Existing Medical Conditions
+                            </label>
+                            <textarea
+                              {...register('medicalHistory')}
+                              rows={3}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                              placeholder="Please provide details about the patient's medical history, if any."
                             />
                           </div>
-                          {errors.preferredDate && (
-                            <p className="mt-1 text-sm text-red-600">{errors.preferredDate.message}</p>
-                          )}
                         </div>
+                      </motion.div>
+                    )}
 
-                        <div>
-                          <label className="block text-sm font-medium text-navy-700 mb-2">
-                            Preferred Time *
-                          </label>
-                          <div className="relative">
-                            <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-navy-400" />
-                            <select
-                              {...register('preferredTime', { required: 'Please select a time' })}
-                              className={cn(
-                                'w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors',
-                                errors.preferredTime ? 'border-red-300' : 'border-gray-300'
-                              )}
-                            >
-                              <option value="">Select time</option>
-                              {timeSlots.map((time) => (
-                                <option key={time} value={time}>
-                                  {time}
-                                </option>
-                              ))}
-                            </select>
+                    {currentStep === 2 && (
+                      <motion.div
+                        key="step2"
+                        variants={stepVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+                      >
+                        {/* Left Column */}
+                        <div className="space-y-4">
+                          {/* Contact Person Name */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Contact Person&apos;s Name <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('guardianFirstName', {
+                                    required: 'First name is required',
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="First Name"
+                                />
+                                <span className="text-xs text-gray-500 mt-1">First Name</span>
+                              </div>
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('guardianLastName', {
+                                    required: 'Last name is required',
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="Last Name"
+                                />
+                                <span className="text-xs text-gray-500 mt-1">Last Name</span>
+                              </div>
+                            </div>
+                            {(errors.guardianFirstName || errors.guardianLastName) && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.guardianFirstName?.message || errors.guardianLastName?.message}
+                              </p>
+                            )}
                           </div>
-                          {errors.preferredTime && (
-                            <p className="mt-1 text-sm text-red-600">{errors.preferredTime.message}</p>
-                          )}
-                        </div>
-                      </div>
 
-                      {/* Message */}
-                      <div>
-                        <label className="block text-sm font-medium text-navy-700 mb-2">
-                          Additional Message (Optional)
-                        </label>
-                        <div className="relative">
-                          <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-navy-400" />
-                          <textarea
-                            {...register('message')}
-                            rows={4}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none"
-                            placeholder="Tell us about your symptoms or any specific concerns..."
-                          />
+                          {/* Phone Number */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Number <span className="text-red-500">*</span>
+                            </label>
+                            <div className="flex">
+                              <span className="inline-flex items-center px-3 bg-gray-50 border border-r-0 border-gray-300 rounded-l-md text-gray-600 text-sm">
+                                🇮🇳 +91
+                              </span>
+                              <input
+                                type="tel"
+                                {...register('guardianPhone', {
+                                  required: 'Phone number is required',
+                                  pattern: {
+                                    value: /^[6-9]\d{9}$/,
+                                    message: 'Enter a valid 10-digit Indian number',
+                                  },
+                                })}
+                                className="flex-1 px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                placeholder="Phone Number"
+                                maxLength={10}
+                              />
+                            </div>
+                            {errors.guardianPhone && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.guardianPhone.message}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Email */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Email
+                            </label>
+                            <input
+                              type="email"
+                              {...register('guardianEmail')}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                              placeholder="Email (optional)"
+                            />
+                          </div>
+
+                          {/* How did you find us */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              How did you find us? <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-1 gap-2">
+                              {referralOptions.map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex items-center space-x-2 cursor-pointer"
+                                >
+                                  <input
+                                    type="radio"
+                                    value={option}
+                                    {...register('referral', {
+                                      required: 'Please select a referral source',
+                                    })}
+                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                  />
+                                  <span className="text-sm text-gray-700">{option}</span>
+                                </label>
+                              ))}
+                            </div>
+                            {errors.referral && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.referral.message}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </form>
-            )}
+
+                        {/* Right Column */}
+                        <div className="space-y-4">
+                          {/* Patient Address */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Patient Address <span className="text-red-500">*</span>
+                            </label>
+                            <div className="space-y-2">
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('addressStreet', {
+                                    required: 'Street address is required',
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="Street Address"
+                                />
+                                <span className="text-xs text-gray-500 mt-1">Street Address</span>
+                              </div>
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('addressLandmark', {
+                                    required: 'Landmark is required',
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="Landmark"
+                                />
+                                <span className="text-xs text-gray-500 mt-1">Landmark</span>
+                              </div>
+                              <div>
+                                <input
+                                  type="text"
+                                  {...register('addressPin', {
+                                    required: 'Pin code is required',
+                                    pattern: {
+                                      value: /^\d{6}$/,
+                                      message: 'Enter a valid 6-digit PIN code',
+                                    },
+                                  })}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                  placeholder="Pin Code"
+                                  maxLength={6}
+                                />
+                                <span className="text-xs text-gray-500 mt-1">Pin Code</span>
+                              </div>
+                            </div>
+                            {(errors.addressStreet || errors.addressLandmark || errors.addressPin) && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.addressStreet?.message ||
+                                  errors.addressLandmark?.message ||
+                                  errors.addressPin?.message}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Terms and Conditions */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Terms and Conditions <span className="text-red-500">*</span>
+                            </label>
+                            <div className="border border-gray-300 rounded-md p-3 bg-gray-50 max-h-40 overflow-y-auto text-xs text-gray-600">
+                              <p className="mb-2">
+                                <strong>Consent for Medical Consultation and Treatment</strong>
+                              </p>
+                              <p className="mb-2">
+                                I willingly agree to receive medical consultation or treatment from healthcare professionals, including but not limited to doctors, physiotherapists, and nursing staff.
+                              </p>
+                              <p className="mb-2">
+                                By providing my consent, I acknowledge that Health Seva At Your Home, Health Sevak, and their associated personnel have explained the nature of the treatment, potential risks, benefits, and alternative treatment options available to me.
+                              </p>
+                              <p>
+                                I furthermore assume full responsibility for all reasonable charges incurred during the diagnosis and treatment of my dependent.
+                              </p>
+                            </div>
+                            <div className="flex items-start space-x-2 mt-2">
+                              <input
+                                type="checkbox"
+                                {...register('consent', {
+                                  required: 'You must accept the terms and conditions',
+                                })}
+                                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                              />
+                              <span className="text-sm text-gray-700">
+                                I confirm that I fully understand and accept the risks and benefits of the treatment provided, and I consent to my dependent receiving treatment at home.
+                              </span>
+                            </div>
+                            {errors.consent && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors.consent.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </form>
+              )}
+            </div>
           </div>
 
           {/* Footer */}
           {!isSuccess && (
-            <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-200/50 flex justify-between">
-              {currentStep === 2 ? (
+            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between">
+              {currentStep > 1 ? (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="flex items-center space-x-2 px-4 py-2 text-navy-600 hover:text-navy-800 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors bg-white border border-gray-300 rounded-md"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span>Previous</span>
+                  <span>Back</span>
                 </button>
               ) : (
                 <div />
@@ -511,9 +778,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="flex items-center space-x-2 btn-primary"
+                  className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                 >
-                  <span>Continue</span>
+                  <span>Next</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -521,17 +788,17 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   type="submit"
                   disabled={isSubmitting}
                   onClick={handleSubmit(handleFormSubmit)}
-                  className="flex items-center space-x-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center space-x-2 px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Booking...</span>
+                      <span>Submitting...</span>
                     </>
                   ) : (
                     <>
-                      <Calendar className="w-4 h-4" />
-                      <span>Book Appointment</span>
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Submit</span>
                     </>
                   )}
                 </button>

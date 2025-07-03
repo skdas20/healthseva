@@ -124,7 +124,17 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-gradient-primary mb-6">
+          <h2 
+            className="text-4xl lg:text-5xl font-bold gradient-heading mb-6"
+            style={{
+              background: 'linear-gradient(135deg, #009999, #00CED1, #1E90FF)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: 'transparent',
+              display: 'inline-block'
+            }}
+          >
             Our Healthcare Services
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -185,7 +195,7 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
 
               {/* Book Appointment Button */}
               <motion.button
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+                className="w-full bg-gradient-to-r from-[#009999] to-[#00cccc] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={(e) => {
@@ -266,7 +276,7 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
                 </motion.div>
 
                 <motion.button
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+                  className="bg-gradient-to-r from-[#009999] to-[#00cccc] text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onBookAppointment?.()}

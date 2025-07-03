@@ -43,7 +43,7 @@ const Header = () => {
     <>
       {/* Enhanced Top Bar with Hover Effects */}
       <motion.div 
-        className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white py-2 px-4 text-sm relative overflow-hidden"
+        className="fixed top-0 left-0 w-full z-[101] bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white py-2 px-4 text-sm relative overflow-hidden"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -72,9 +72,9 @@ const Header = () => {
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
               >
-                <Phone className="h-4 w-4 group-hover:text-yellow-300 transition-colors" />
+                <Phone className="h-4 w-4 group-hover:text-yellow-300 transition-colors text-[#14B8A6]" />
               </motion.div>
-              <span className="group-hover:text-yellow-300 transition-colors">+1 (555) 123-4567</span>
+              <span className="group-hover:text-yellow-300 transition-colors text-[#14B8A6]">+1 (555) 123-4567</span>
             </motion.div>
             
             <motion.div 
@@ -120,7 +120,7 @@ const Header = () => {
       {/* Enhanced Main Header */}
       <motion.header
         className={cn(
-          'sticky top-0 z-50 transition-all duration-500',
+          'fixed top-[40px] left-0 w-full z-[100] transition-all duration-500',
           isScrolled
             ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100'
             : 'bg-white shadow-sm'
@@ -271,12 +271,8 @@ const Header = () => {
               >
                 <Link
                   href="/appointment"
-                  className="relative px-6 py-2 text-blue-600 border-2 border-blue-600 rounded-lg font-medium transition-all duration-300 hover:bg-blue-600 hover:text-white group overflow-hidden"
+                  className="btn-header-gradient px-6 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-lg group overflow-hidden"
                 >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100"
-                    transition={{ duration: 0.3 }}
-                  />
                   <span className="relative z-10">Book Appointment</span>
                 </Link>
               </motion.div>
@@ -423,6 +419,8 @@ const Header = () => {
           )}
         </AnimatePresence>
       </motion.header>
+      {/* Spacer to prevent content overlap with fixed navbars */}
+      <div style={{ height: 104 }} />
     </>
   );
 };

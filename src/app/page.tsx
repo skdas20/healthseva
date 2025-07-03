@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import ServicesCarousel from '@/components/ServicesCarouselNew';
 import BenefitsSection from '@/components/BenefitsSectionNew';
@@ -89,17 +88,6 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Navigation */}
-      <Navigation
-        links={navigationLinks}
-        logo={{
-          text: 'HealthSeva',
-          icon: '🏥'
-        }}
-        ctaText="Book Appointment"
-        ctaHref="#contact"
-      />
-
       {/* Main Content */}
       <main className="relative">
         {/* Hero Section */}

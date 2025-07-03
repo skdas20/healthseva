@@ -106,7 +106,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          className="fixed inset-0 z-50 bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
+          style={{
+            background: 'linear-gradient(90deg, #e0f7fa 0%, #fbeee6 100%)',
+          }}
           initial={{ opacity: 1 }}
           exit={{ 
             opacity: 0,
@@ -119,8 +122,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
               backgroundImage: `
-                linear-gradient(90deg, #3B82F6 1px, transparent 1px),
-                linear-gradient(#3B82F6 1px, transparent 1px)
+                linear-gradient(90deg, #009999 1px, transparent 1px),
+                linear-gradient(#009999 1px, transparent 1px)
               `,
               backgroundSize: '50px 50px'
             }} />
@@ -151,7 +154,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
           ].map((particle, i) => (
             <motion.div
               key={`particle-${i}`}
-              className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
+              className="absolute w-2 h-2 bg-gradient-to-r from-[#009999] to-[#FF6F61] rounded-full"
               style={{
                 left: particle.left,
                 top: particle.top,
@@ -237,7 +240,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
             >
               {/* Glowing Background */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full blur-xl opacity-30"
+                className="absolute inset-0 bg-gradient-to-r from-[#009999] via-[#00cccc] to-[#FF6F61] rounded-full blur-xl opacity-30"
                 animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.3, 0.6, 0.3]
@@ -251,7 +254,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
               
               {/* Main Logo Container */}
               <motion.div
-                className="relative w-full h-full bg-gradient-to-br from-white to-gray-100 rounded-2xl shadow-2xl border border-gray-200 flex items-center justify-center"
+                className="relative w-full h-full bg-gradient-to-br from-white to-[#e6f7f7] rounded-2xl shadow-2xl border border-gray-200 flex items-center justify-center"
                 animate={{
                   rotateY: [0, 5, -5, 0],
                   rotateX: [0, -5, 5, 0]
@@ -278,7 +281,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
                 
                 {/* Rotating Ring */}
                 <motion.div
-                  className="absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-purple-500 rounded-2xl"
+                  className="absolute inset-0 border-4 border-transparent border-t-[#009999] border-r-[#FF6F61] rounded-2xl"
                   animate={{
                     rotate: 360
                   }}
@@ -293,7 +296,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
 
             {/* Enhanced Brand Name with Gradient Animation */}
             <motion.h1
-              className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2"
+              className="text-5xl font-bold bg-gradient-to-r from-[#009999] via-[#00cccc] to-[#FF6F61] bg-clip-text text-transparent mb-2"
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
@@ -353,7 +356,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
             >
               {/* Background Glow */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-sm opacity-30"
+                className="absolute inset-0 bg-gradient-to-r from-[#009999] to-[#FF6F61] rounded-full blur-sm opacity-30"
                 animate={{
                   scale: [1, 1.05, 1],
                   opacity: [0.3, 0.5, 0.3]
@@ -367,7 +370,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
               
               {/* Progress Fill */}
               <motion.div
-                className="relative h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full overflow-hidden"
+                className="relative h-full bg-gradient-to-r from-[#009999] via-[#00cccc] to-[#FF6F61] rounded-full overflow-hidden"
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.min(progress, 100)}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -408,7 +411,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
               transition={{ delay: 1.4, duration: 0.6 }}
             >
               <motion.div
-                className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                className="text-3xl font-bold bg-gradient-to-r from-[#009999] to-[#FF6F61] bg-clip-text text-transparent"
                 animate={{
                   scale: [1, 1.05, 1]
                 }}
@@ -426,7 +429,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
                 {[0, 1, 2].map((i) => (
                   <motion.div
                     key={i}
-                    className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                    className="w-2 h-2 bg-gradient-to-r from-[#009999] to-[#FF6F61] rounded-full"
                     animate={{
                       scale: [1, 1.5, 1],
                       opacity: [0.5, 1, 0.5]
@@ -454,7 +457,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
                   key={index}
                   className={`w-3 h-3 rounded-full ${
                     index <= currentPhase 
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                      ? 'bg-gradient-to-r from-[#009999] to-[#FF6F61]' 
                       : 'bg-gray-300'
                   }`}
                   animate={{
@@ -472,7 +475,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
 
           {/* Corner Decorations */}
           <motion.div
-            className="absolute top-8 left-8 w-16 h-16 border-l-4 border-t-4 border-blue-400 rounded-tl-2xl"
+            className="absolute top-8 left-8 w-16 h-16 border-l-4 border-t-4 border-[#009999] rounded-tl-2xl"
             animate={{
               opacity: [0.3, 1, 0.3],
               scale: [1, 1.1, 1]
@@ -484,7 +487,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
             }}
           />
           <motion.div
-            className="absolute top-8 right-8 w-16 h-16 border-r-4 border-t-4 border-purple-400 rounded-tr-2xl"
+            className="absolute top-8 right-8 w-16 h-16 border-r-4 border-t-4 border-[#00cccc] rounded-tr-2xl"
             animate={{
               opacity: [0.3, 1, 0.3],
               scale: [1, 1.1, 1]
@@ -497,7 +500,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
             }}
           />
           <motion.div
-            className="absolute bottom-8 left-8 w-16 h-16 border-l-4 border-b-4 border-pink-400 rounded-bl-2xl"
+            className="absolute bottom-8 left-8 w-16 h-16 border-l-4 border-b-4 border-[#FF6F61] rounded-bl-2xl"
             animate={{
               opacity: [0.3, 1, 0.3],
               scale: [1, 1.1, 1]
@@ -510,7 +513,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onComplete }) 
             }}
           />
           <motion.div
-            className="absolute bottom-8 right-8 w-16 h-16 border-r-4 border-b-4 border-teal-400 rounded-br-2xl"
+            className="absolute bottom-8 right-8 w-16 h-16 border-r-4 border-b-4 border-[#00cccc] rounded-br-2xl"
             animate={{
               opacity: [0.3, 1, 0.3],
               scale: [1, 1.1, 1]

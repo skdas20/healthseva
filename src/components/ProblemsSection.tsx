@@ -153,7 +153,16 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="relative inline-block text-4xl lg:text-5xl font-extrabold text-navy-900 mb-6 px-6 py-3 rounded-2xl shadow-lg bg-white/80 backdrop-blur-md border border-white/40" style={{ textShadow: '0 2px 16px rgba(59,130,246,0.10), 0 1px 0 #fff' }}>
+          <h2 
+            className="text-4xl lg:text-5xl font-extrabold mb-6 bg-clip-text text-transparent"
+            style={{
+              background: 'linear-gradient(135deg, #009999, #00CED1, #1E90FF)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: 'transparent'
+            }}
+          >
             {title}
           </h2>
           <p className="text-xl text-navy-600 max-w-3xl mx-auto mt-4 drop-shadow-sm bg-white/60 rounded-xl px-4 py-2 inline-block">
@@ -238,7 +247,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
                     className="flex items-center justify-between w-full text-left group"
                     whileHover={{ x: 5 }}
                   >
-                    <span className="text-sm font-medium text-primary-600 group-hover:text-primary-700">
+                    <span className="text-sm font-medium text-teal-600 group-hover:text-teal-500">
                       How HealthSeva Solves This
                     </span>
                     <motion.div
@@ -247,7 +256,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
                       }}
                       transition={{ duration: 0.3 }}
                     >
-                      <ArrowRight className="w-4 h-4 text-primary-600" />
+                      <ArrowRight className="w-4 h-4 text-teal-600 group-hover:text-teal-500" />
                     </motion.div>
                   </motion.button>
 
@@ -302,17 +311,14 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <div className="max-w-3xl mx-auto">
-            <motion.div
-              className="inline-flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-full mb-6"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            >
-              <Heart className="w-8 h-8 text-white" />
-            </motion.div>
-            
-            <h3 className="text-3xl font-bold text-navy-800 mb-4">
-              Ready for Better Healthcare?
-            </h3>
+            <div className="flex flex-col items-center mb-8">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gradient-to-r from-[#009999] to-[#00cccc] animate-spin-slow mb-4">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2 bg-clip-text text-transparent" style={{ background: 'linear-gradient(135deg, #009999, #00cccc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Ready for better health care?
+              </h3>
+            </div>
             <p className="text-navy-600 mb-8 text-lg">
               Don&apos;t let these problems affect your health and well-being. 
               Experience the HealthSeva difference today.
@@ -320,7 +326,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                className="btn-primary px-8 py-3 flex items-center space-x-2"
+                className="bg-gradient-to-r from-[#009999] to-[#00cccc] text-white px-8 py-3 flex items-center space-x-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -329,7 +335,7 @@ const ProblemsSection: React.FC<ProblemsProps> = ({
               </motion.button>
               
               <motion.button
-                className="btn-secondary px-8 py-3"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >

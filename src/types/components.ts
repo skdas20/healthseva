@@ -94,13 +94,24 @@ export interface ContactSectionProps {
 }
 
 export interface AppointmentFormData {
-  name: string;
-  phone: string;
-  email: string;
-  serviceType: string;
-  preferredDate: string;
-  preferredTime: string;
-  message: string;
+  serviceRequirement: string;
+  patientFirstName: string;
+  patientLastName: string;
+  gender: string;
+  age: string;
+  complaints: string[];
+  otherComplaint: string;
+  sinceWhen: string;
+  medicalHistory: string;
+  guardianFirstName: string;
+  guardianLastName: string;
+  guardianPhone: string;
+  guardianEmail: string;
+  addressStreet: string;
+  addressLandmark: string;
+  addressPin: string;
+  referral: string;
+  consent: boolean;
 }
 
 export interface AppointmentModalProps {

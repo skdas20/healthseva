@@ -106,7 +106,16 @@ const BenefitsSection: React.FC<BenefitsProps> = ({
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-gradient-primary mb-6">
+          <h2 
+            className="text-4xl lg:text-5xl font-bold mb-6 bg-clip-text text-transparent"
+            style={{
+              background: 'linear-gradient(135deg, #009999, #00CED1, #1E90FF)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              color: 'transparent'
+            }}
+          >
             {title}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -224,7 +233,7 @@ const BenefitsSection: React.FC<BenefitsProps> = ({
             Ready to experience the HealthSeva difference?
           </p>
           <motion.button
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+            className="bg-gradient-to-r from-[#009999] to-[#00cccc] text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >

@@ -7,11 +7,20 @@ import LoadingScreen from './LoadingScreen';
 import WhatsAppButton from './WhatsAppButton';
 import AppointmentModal from './AppointmentModal';
 import MedicalBackground from './MedicalBackground';
+import Navigation from './Navigation';
 import { AppointmentFormData } from '@/types/components';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
+
+const navigationLinks = [
+  { name: 'Home', href: '#home' },
+  { name: 'Services', href: '#services' },
+  { name: 'Benefits', href: '#benefits' },
+  { name: 'About', href: '#about' },
+  { name: 'Contact', href: '#contact' },
+];
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -66,8 +75,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <>
-      {/* Global Medical Animated Background */}
-      <MedicalBackground />
       {/* Loading Screen */}
       <AnimatePresence>
         {isLoading && (
@@ -77,7 +84,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           />
         )}
       </AnimatePresence>
-
+      {/* Navigation Bar - only show after loading and when modal is not open */}
+      {!isLoading && !isModalOpen && (
+        <Navigation
+          links={navigationLinks}
+          ctaText="Book Appointment"
+          ctaHref="#contact"
+        />
+      )}
+      {/* Global Medical Animated Background */}
+      <MedicalBackground />
       {/* Scroll Progress Indicator */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-gradient-primary z-50 origin-left"
@@ -90,7 +106,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       {/* Main Content */}
       <div 
         ref={scrollContainerRef}
-        className="relative min-h-screen"
+        className="relative min-h-screen pt-16 lg:pt-20"
         style={{ 
           willChange: 'transform',
           backfaceVisibility: 'hidden'
@@ -112,10 +128,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
-            className="fixed bottom-24 right-6 z-30 w-12 h-12 bg-gradient-primary text-white rounded-full shadow-soft-lg flex items-center justify-center transition-all duration-300 hover:shadow-soft-xl"
+            className="fixed bottom-24 right-6 z-30 w-12 h-12 bg-gradient-to-r from-[#009999] to-[#00cccc] text-white rounded-full shadow-soft-lg flex items-center justify-center transition-all duration-300 hover:shadow-soft-xl"
             aria-label="Back to top"
           >
-            <ArrowUp className="w-5 h-5" />
+            <ArrowUp className="w-5 h-5 text-white" />
           </motion.button>
         )}
       </AnimatePresence>

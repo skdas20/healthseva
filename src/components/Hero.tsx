@@ -342,7 +342,7 @@ const Hero: React.FC<HeroProps> = ({
           className="absolute bottom-40 left-20 w-8 h-4 rounded-full opacity-40"
           style={{
             background: 'linear-gradient(to right, #00cccc, #009999)',
-            boxShadow: '0 0 15px rgba(0, 153, 153, 0.3)'
+            boxShadow: '0 0 15px rgba(0, 204, 204, 0.3)'
           }}
           animate={{
             x: [0, 20, 0],
@@ -704,7 +704,7 @@ const Hero: React.FC<HeroProps> = ({
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
               <motion.button 
                 onClick={() => window.location.href = primaryCta.href} 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold flex items-center justify-center space-x-2 group hover:shadow-lg transition-all duration-300 text-sm sm:text-base" 
+                className="bg-gradient-to-r from-[#009999] to-[#00cccc] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold flex items-center justify-center space-x-2 group hover:shadow-lg transition-all duration-300 text-sm sm:text-base" 
                 whileHover={{ scale: 1.05, y: -2 }} 
                 whileTap={{ scale: 0.95 }}
               >
@@ -714,7 +714,7 @@ const Hero: React.FC<HeroProps> = ({
               </motion.button>
               <motion.a 
                 href={secondaryCta.href} 
-                className="bg-white text-gray-700 border border-gray-300 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base" 
+                className="bg-gradient-to-r from-[#009999] to-[#14B8A6] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:from-[#14B8A6] hover:to-[#00cccc] transition-all duration-300 text-sm sm:text-base border-0 shadow-md" 
                 whileHover={{ scale: 1.05, y: -2 }} 
                 whileTap={{ scale: 0.95 }}
               >
@@ -726,7 +726,7 @@ const Hero: React.FC<HeroProps> = ({
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="flex justify-center mb-1 sm:mb-2">
-                    <stat.icon className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+                    <stat.icon className="h-6 w-6 sm:h-8 sm:w-8 text-transparent bg-gradient-to-r from-[#009999] to-[#FF6F61] bg-clip-text" />
                   </div>
                   <div className="text-lg sm:text-2xl font-bold text-gray-800">{stat.value}</div>
                   <div className="text-xs sm:text-sm text-gray-600">{stat.label}</div>

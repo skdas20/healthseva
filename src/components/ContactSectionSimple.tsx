@@ -11,10 +11,10 @@ const ContactSection: React.FC<ContactSectionProps> = ({
     <section className="relative py-20 bg-gray-50">
       <div className="container-custom">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-navy-800 mb-4">
+          <h2 className="text-4xl font-bold mb-4 bg-clip-text text-transparent" style={{ background: 'linear-gradient(135deg, #009999, #00cccc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Get in Touch
           </h2>
-          <p className="text-xl text-navy-600 max-w-2xl mx-auto">
+          <p className="text-xl mb-2 bg-clip-text text-transparent" style={{ background: 'linear-gradient(135deg, #009999, #00cccc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Ready to take the next step in your healthcare journey? Contact us today.
           </p>
         </div>
@@ -23,8 +23,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           {/* Contact Info */}
           <div className="space-y-8">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <Phone className="w-6 h-6 text-primary-600" />
+              <div className="w-12 h-12 bg-[#e0f7fa] rounded-lg flex items-center justify-center">
+                <Phone className="w-6 h-6 text-[#009999]" />
               </div>
               <div>
                 <h3 className="font-semibold text-navy-800">Phone</h3>
@@ -33,8 +33,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <Mail className="w-6 h-6 text-primary-600" />
+              <div className="w-12 h-12 bg-[#e0f7fa] rounded-lg flex items-center justify-center">
+                <Mail className="w-6 h-6 text-[#009999]" />
               </div>
               <div>
                 <h3 className="font-semibold text-navy-800">Email</h3>
@@ -43,8 +43,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-primary-600" />
+              <div className="w-12 h-12 bg-[#e0f7fa] rounded-lg flex items-center justify-center">
+                <MapPin className="w-6 h-6 text-[#009999]" />
               </div>
               <div>
                 <h3 className="font-semibold text-navy-800">Address</h3>
@@ -53,8 +53,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-primary-600" />
+              <div className="w-12 h-12 bg-[#e0f7fa] rounded-lg flex items-center justify-center">
+                <Clock className="w-6 h-6 text-[#009999]" />
               </div>
               <div>
                 <h3 className="font-semibold text-navy-800">Hours</h3>
@@ -73,7 +73,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
             </p>
             <button 
               onClick={onOpenModal}
-              className="btn-primary w-full"
+              className="w-full bg-gradient-to-r from-[#009999] to-[#00cccc] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
             >
               Book Appointment Now
             </button>

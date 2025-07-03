@@ -1,18 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Simple SVGs for stethoscope, heart rate, pulse, shield, etc. in a light greenish/whitish style
-// These are decorative, non-interactive, and positioned absolutely/fixed
-
+// All SVGs use only light teal/white colors, no dark/abstract backgrounds
 const MedicalBackground: React.FC = () => (
   <div
     className="fixed inset-0 pointer-events-none z-0"
     aria-hidden="true"
     style={{
-      // Ensures the background is always behind content
       width: '100vw',
       height: '100vh',
       overflow: 'hidden',
+      background: 'none', // Ensure no background color
     }}
   >
     {/* Stethoscope */}
@@ -42,15 +40,16 @@ const MedicalBackground: React.FC = () => (
     </motion.svg>
 
     {/* Pulse Circle */}
-    <motion.circle
+    <motion.svg
       className="absolute right-16 top-1/2 opacity-10"
-      cx="0" cy="0" r="40"
+      width="80" height="80" viewBox="0 0 80 80" fill="none"
       style={{ position: 'absolute', right: '4rem', top: '50%' }}
-      fill="#14B8A6"
       initial={{ scale: 0.8, opacity: 0.08 }}
       animate={{ scale: 1.1, opacity: 0.13 }}
       transition={{ duration: 2.2, repeat: Infinity, repeatType: 'reverse' }}
-    />
+    >
+      <circle cx="40" cy="40" r="40" fill="#14B8A6" fillOpacity="0.15" />
+    </motion.svg>
 
     {/* Shield */}
     <motion.svg
