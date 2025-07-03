@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, MessageCircle } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface ChatWidgetProps {
   isOpen: boolean;
@@ -45,7 +46,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isOpen, onClose }) => {
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#009999] to-[#14B8A6] rounded-t-2xl">
-            <img src={DUMMY_CONTACT.avatar} alt="HealthSeva logo" className="w-10 h-10 rounded-full border-2 border-white bg-white object-contain p-1 shadow-md" />
+            <Image src={DUMMY_CONTACT.avatar} alt="HealthSeva logo" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white bg-white object-contain p-1 shadow-md" />
             <div className="flex-1">
               <div className="font-semibold text-white text-base">{DUMMY_CONTACT.name}</div>
               <div className="text-xs text-teal-100">{DUMMY_CONTACT.status}</div>
